@@ -1,4 +1,4 @@
-# DiscordIntegration
+# DiscordIntegration fix by tamago4a
 
 A bot and server plugin to allow server logs to be sent to Discord channels, and for server commands to be run via the Discord bot.
 
