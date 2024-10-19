@@ -7,56 +7,56 @@
 
 namespace DiscordIntegration.Commands
 {
-    using System;
-    using System.Text;
-    using CommandSystem;
-    using Exiled.API.Features;
-    using Exiled.Permissions.Extensions;
-    using NorthwoodLib.Pools;
-    using static DiscordIntegration;
+	using CommandSystem;
+	using Exiled.API.Features;
+	using Exiled.Permissions.Extensions;
+	using NorthwoodLib.Pools;
+	using System;
+	using System.Text;
+	using static DiscordIntegration;
 
-    /// <summary>
-    /// Gets the list of staffers in the server.
-    /// </summary>
-    internal sealed class StaffList : ICommand
-    {
+	/// <summary>
+	/// Gets the list of staffers in the server.
+	/// </summary>
+	internal sealed class StaffList : ICommand
+	{
 #pragma warning disable SA1600 // Elements should be documented
-        private StaffList()
-        {
-        }
+		private StaffList()
+		{
+		}
 
-        public static StaffList Instance { get; } = new StaffList();
+		public static StaffList Instance { get; } = new StaffList();
 
-        public string Command { get; } = "stafflist";
+		public string Command { get; } = "stafflist";
 
-        public string[] Aliases { get; } = new[] { "sl" };
+		public string[] Aliases { get; } = new[] { "sl" };
 
-        public string Description { get; } = Language.StaffListCommandDescription;
+		public string Description { get; } = Language.StaffListCommandDescription;
 
-        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-        {
-            if (!sender.CheckPermission("di.stafflist"))
-            {
-                response = string.Format(Language.NotEnoughPermissions, "di.stafflist");
-                return false;
-            }
+		public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+		{
+			if (!sender.CheckPermission("di.stafflist"))
+			{
+				response = string.Format(Language.NotEnoughPermissions, "di.stafflist");
+				return false;
+			}
 
-            StringBuilder message = StringBuilderPool.Shared.Rent();
+			StringBuilder message = StringBuilderPool.Shared.Rent();
 
-            foreach (Player player in Player.List)
-            {
-                if (player.RemoteAdminAccess)
-                    message.Append(player.Nickname).Append(" - ").Append(player?.GroupName).AppendLine();
-            }
+			foreach (Player player in Player.List)
+			{
+				if (player.RemoteAdminAccess)
+					message.Append(player.Nickname).Append(" - ").Append(player?.GroupName).AppendLine();
+			}
 
-            if (message.Length == 0)
-                message.Append(Language.NoStaffOnline);
+			if (message.Length == 0)
+				message.Append(Language.NoStaffOnline);
 
-            response = message.ToString();
+			response = message.ToString();
 
-            StringBuilderPool.Shared.Return(message);
+			StringBuilderPool.Shared.Return(message);
 
-            return true;
-        }
-    }
+			return true;
+		}
+	}
 }
