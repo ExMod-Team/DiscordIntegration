@@ -9,47 +9,47 @@ using DiscordIntegration.Dependency.Database;
 
 namespace DiscordIntegration.Commands
 {
-	using CommandSystem;
-	using Exiled.API.Features;
-	using Exiled.Permissions.Extensions;
-	using System;
-	using System.Linq;
-	using static DiscordIntegration;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using System;
+    using System.Linq;
+    using static DiscordIntegration;
 
-	/// <summary>
-	/// Adds a user to the watchlist.
-	/// </summary>
-	internal sealed class WatchlistAdd : ICommand
-	{
+    /// <summary>
+    /// Adds a user to the watchlist.
+    /// </summary>
+    internal sealed class WatchlistAdd : ICommand
+    {
 #pragma warning disable SA1600 // Elements should be documented
-		private WatchlistAdd()
-		{
-		}
+        private WatchlistAdd()
+        {
+        }
 
-		public static WatchlistAdd Instance { get; } = new WatchlistAdd();
+        public static WatchlistAdd Instance { get; } = new WatchlistAdd();
 
-		public string Command { get; } = "watchadd";
+        public string Command { get; } = "watchadd";
 
-		public string[] Aliases { get; } = new[] { "wla" };
+        public string[] Aliases { get; } = new[] { "wla" };
 
-		public string Description { get; } = Language.WatchlistAddDescription;
+        public string Description { get; } = Language.WatchlistAddDescription;
 
-		public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-		{
-			if (!sender.CheckPermission("di.watchlistadd"))
-			{
-				response = string.Format(Language.NotEnoughPermissions, "di.watchlistadd");
-				return false;
-			}
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            if (!sender.CheckPermission("di.watchlistadd"))
+            {
+                response = string.Format(Language.NotEnoughPermissions, "di.watchlistadd");
+                return false;
+            }
 
-			Player player = Player.Get(arguments.ElementAt(2));
-			string reason = string.Empty;
-			foreach (string s in arguments.Skip(2))
-				reason += $"{s} ";
-			reason = reason.TrimEnd(' ');
-			DatabaseHandler.AddEntry(player.UserId, reason);
-			response = $"{player.Nickname} added to watchlist for {reason}";
-			return true;
-		}
-	}
+            Player player = Player.Get(arguments.ElementAt(2));
+            string reason = string.Empty;
+            foreach (string s in arguments.Skip(2))
+                reason += $"{s} ";
+            reason = reason.TrimEnd(' ');
+            DatabaseHandler.AddEntry(player.UserId, reason);
+            response = $"{player.Nickname} added to watchlist for {reason}";
+            return true;
+        }
+    }
 }

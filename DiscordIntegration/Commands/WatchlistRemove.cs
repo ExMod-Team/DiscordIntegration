@@ -9,43 +9,43 @@ using DiscordIntegration.Dependency.Database;
 
 namespace DiscordIntegration.Commands
 {
-	using CommandSystem;
-	using Exiled.API.Features;
-	using Exiled.Permissions.Extensions;
-	using System;
-	using System.Linq;
-	using static DiscordIntegration;
+    using CommandSystem;
+    using Exiled.API.Features;
+    using Exiled.Permissions.Extensions;
+    using System;
+    using System.Linq;
+    using static DiscordIntegration;
 
-	/// <summary>
-	/// Removes a user from the watchlist.
-	/// </summary>
-	internal sealed class WatchlistRemove : ICommand
-	{
+    /// <summary>
+    /// Removes a user from the watchlist.
+    /// </summary>
+    internal sealed class WatchlistRemove : ICommand
+    {
 #pragma warning disable SA1600 // Elements should be documented
-		private WatchlistRemove()
-		{
-		}
+        private WatchlistRemove()
+        {
+        }
 
-		public static WatchlistRemove Instance { get; } = new WatchlistRemove();
+        public static WatchlistRemove Instance { get; } = new WatchlistRemove();
 
-		public string Command { get; } = "watchrem";
+        public string Command { get; } = "watchrem";
 
-		public string[] Aliases { get; } = new[] { "wlr" };
+        public string[] Aliases { get; } = new[] { "wlr" };
 
-		public string Description { get; } = Language.WatchlistRemoveDescription;
+        public string Description { get; } = Language.WatchlistRemoveDescription;
 
-		public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
-		{
-			if (!sender.CheckPermission("di.watchlistremove"))
-			{
-				response = string.Format(Language.NotEnoughPermissions, "di.watchlistremove");
-				return false;
-			}
+        public bool Execute(ArraySegment<string> arguments, ICommandSender sender, out string response)
+        {
+            if (!sender.CheckPermission("di.watchlistremove"))
+            {
+                response = string.Format(Language.NotEnoughPermissions, "di.watchlistremove");
+                return false;
+            }
 
-			Player player = Player.Get(arguments.ElementAt(2));
-			DatabaseHandler.RemoveEntry(player.UserId);
-			response = $"{player.Nickname} removed from watchlist.";
-			return true;
-		}
-	}
+            Player player = Player.Get(arguments.ElementAt(2));
+            DatabaseHandler.RemoveEntry(player.UserId);
+            response = $"{player.Nickname} removed from watchlist.";
+            return true;
+        }
+    }
 }

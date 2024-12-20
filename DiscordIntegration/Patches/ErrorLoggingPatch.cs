@@ -9,41 +9,41 @@ namespace DiscordIntegration.Patches
 {
 #pragma warning disable SA1118
 
-	using Exiled.API.Features;
-	using global::DiscordIntegration.Dependency;
-	using HarmonyLib;
-	using NorthwoodLib.Pools;
-	using System.Collections.Generic;
-	using System.Reflection.Emit;
-	using static HarmonyLib.AccessTools;
+    using Exiled.API.Features;
+    using global::DiscordIntegration.Dependency;
+    using HarmonyLib;
+    using NorthwoodLib.Pools;
+    using System.Collections.Generic;
+    using System.Reflection.Emit;
+    using static HarmonyLib.AccessTools;
 
-	[HarmonyPatch(typeof(Log), nameof(Log.Error), typeof(object))]
-	[HarmonyPatch(typeof(Log), nameof(Log.Error), typeof(string))]
-	internal class ErrorLoggingPatch
-	{
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
-		{
-			List<CodeInstruction> newInstructions = ListPool<CodeInstruction>.Shared.Rent(instructions);
+    [HarmonyPatch(typeof(Log), nameof(Log.Error), typeof(object))]
+    [HarmonyPatch(typeof(Log), nameof(Log.Error), typeof(string))]
+    internal class ErrorLoggingPatch
+    {
+        private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            List<CodeInstruction> newInstructions = ListPool<CodeInstruction>.Shared.Rent(instructions);
 
-			int offset = -2;
-			int index = newInstructions.FindLastIndex(i => i.opcode == OpCodes.Call) + offset;
+            int offset = -2;
+            int index = newInstructions.FindLastIndex(i => i.opcode == OpCodes.Call) + offset;
 
-			newInstructions.InsertRange(index, new CodeInstruction[]
-			{
-				new (OpCodes.Dup),
-				new (OpCodes.Call, Method(typeof(ErrorLoggingPatch), nameof(LogError))),
-			});
+            newInstructions.InsertRange(index, new CodeInstruction[]
+            {
+                new (OpCodes.Dup),
+                new (OpCodes.Call, Method(typeof(ErrorLoggingPatch), nameof(LogError))),
+            });
 
-			for (int z = 0; z < newInstructions.Count; z++)
-				yield return newInstructions[z];
+            for (int z = 0; z < newInstructions.Count; z++)
+                yield return newInstructions[z];
 
-			ListPool<CodeInstruction>.Shared.Return(newInstructions);
-		}
+            ListPool<CodeInstruction>.Shared.Return(newInstructions);
+        }
 
-		private static void LogError(string message)
-		{
-			if (DiscordIntegration.Instance.Config.LogErrors)
-				_ = DiscordIntegration.Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.Errors, message));
-		}
-	}
+        private static void LogError(string message)
+        {
+            if (DiscordIntegration.Instance.Config.LogErrors)
+                _ = DiscordIntegration.Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.Errors, message));
+        }
+    }
 }
