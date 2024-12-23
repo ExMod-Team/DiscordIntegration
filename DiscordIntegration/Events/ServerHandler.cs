@@ -9,9 +9,8 @@ namespace DiscordIntegration.Events
 {
     using Dependency;
     using Exiled.API.Features;
-    using Exiled.Events.EventArgs.Player;
     using Exiled.Events.EventArgs.Server;
-    using Respawning;
+	using PlayerRoles;
     using System.Linq;
     using static DiscordIntegration;
 
@@ -57,7 +56,7 @@ namespace DiscordIntegration.Events
         public async void OnRespawningTeam(RespawningTeamEventArgs ev)
         {
             if (Instance.Config.EventsToLog.RespawningTeam)
-                await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, string.Format(ev.NextKnownTeam == SpawnableTeamType.ChaosInsurgency ? Language.ChaosInsurgencyHaveSpawned : Language.NineTailedFoxHaveSpawned, ev.Players.Count))).ConfigureAwait(false);
+                await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, string.Format(ev.NextKnownTeam == Faction.FoundationEnemy ? Language.ChaosInsurgencyHaveSpawned : Language.NineTailedFoxHaveSpawned, ev.Players.Count))).ConfigureAwait(false);
         }
     }
 }
