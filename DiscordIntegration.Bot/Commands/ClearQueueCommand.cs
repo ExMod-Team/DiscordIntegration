@@ -2,7 +2,6 @@ namespace DiscordIntegration.Bot.Commands;
 
 using Discord;
 using Discord.Interactions;
-
 using DiscordIntegration.Bot.Services;
 using System;
 using System.Threading.Tasks;
