@@ -7,6 +7,11 @@
 
 namespace DiscordIntegration.API
 {
+    using API.EventArgs.Network;
+    using Exiled.API.Features;
+    using global::DiscordIntegration.Dependency;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.IO;
     using System.Net;
@@ -14,13 +19,6 @@ namespace DiscordIntegration.API
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-    using API.EventArgs.Network;
-    using Exiled.API.Features;
-
-    using global::DiscordIntegration.Dependency;
-
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
 
     /// <summary>
     /// A client that sends JSON serialized strings to a connected server.
@@ -319,7 +317,7 @@ namespace DiscordIntegration.API
                 {
                     if (TcpClient is null)
                         return;
-                    
+
                     Task<int> readTask = TcpClient.GetStream().ReadAsync(buffer, 0, buffer.Length, cancellationToken.Token);
 
                     await Task.WhenAny(readTask, Task.Delay(10000, cancellationToken.Token)).ConfigureAwait(false);

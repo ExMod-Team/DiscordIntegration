@@ -1,9 +1,14 @@
 namespace DiscordIntegration.Bot;
 
-using System.Reflection;
-
 using Newtonsoft.Json;
 using Services;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 public static class Program
 {
@@ -19,10 +24,10 @@ public static class Program
         Log.Info(0, nameof(Main), $"Welcome to Discord Integration v{Assembly.GetExecutingAssembly().GetName().Version}!");
         if (args.Contains("--debug"))
             Config.Debug = true;
-        
+
         foreach (KeyValuePair<ushort, string> botToken in Config.BotTokens)
             _bots.Add(new Bot(botToken.Key, botToken.Value));
-        
+
         AppDomain.CurrentDomain.ProcessExit += (_, _) =>
         {
             foreach (Bot bot in _bots)

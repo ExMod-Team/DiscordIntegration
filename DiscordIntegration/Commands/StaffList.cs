@@ -7,12 +7,12 @@
 
 namespace DiscordIntegration.Commands
 {
-    using System;
-    using System.Text;
     using CommandSystem;
     using Exiled.API.Features;
     using Exiled.Permissions.Extensions;
     using NorthwoodLib.Pools;
+    using System;
+    using System.Text;
     using static DiscordIntegration;
 
     /// <summary>

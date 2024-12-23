@@ -7,16 +7,15 @@
 
 namespace DiscordIntegration.Events
 {
-    using System;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
-    using System.Text;
-    using API.Commands;
     using Dependency;
     using Exiled.API.Enums;
     using Exiled.API.Features;
-    using Exiled.Events.EventArgs;
-    using NorthwoodLib.Pools;
+    using Exiled.Events.EventArgs.Map;
+    using Exiled.Events.EventArgs.Scp914;
+    using Exiled.Events.EventArgs.Warhead;
+    using System;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using static DiscordIntegration;
 
     /// <summary>
@@ -31,7 +30,7 @@ namespace DiscordIntegration.Events
                 await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, Language.WarheadHasDetonated)).ConfigureAwait(false);
         }
 
-        public async void OnGeneratorActivated(GeneratorActivatedEventArgs ev)
+        public async void OnGeneratorActivating(GeneratorActivatingEventArgs ev)
         {
             if (Instance.Config.EventsToLog.GeneratorActivated)
                 await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, string.Format(Language.GeneratorFinished, ev.Generator.Room, Generator.Get(GeneratorState.Engaged).Count() + 1))).ConfigureAwait(false);
@@ -77,11 +76,11 @@ namespace DiscordIntegration.Events
             }
         }
 
-        public async void OnUpgradingItems(UpgradingItemEventArgs ev)
+        public async void OnUpgradingPickup(UpgradingPickupEventArgs ev)
         {
             if (Instance.Config.EventsToLog.UpgradingScp914Items)
             {
-                await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, string.Format(Language.Scp914ProcessedItem, ev.Item.Type)));
+                await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, string.Format(Language.Scp914ProcessedItem, ev.Pickup.Type)));
             }
         }
     }

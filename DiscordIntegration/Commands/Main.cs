@@ -8,8 +8,8 @@
 namespace DiscordIntegration.Commands
 {
 #pragma warning disable SA1600 // Elements should be documented
-    using System;
     using CommandSystem;
+    using System;
     using static DiscordIntegration;
 
     [CommandHandler(typeof(RemoteAdminCommandHandler))]

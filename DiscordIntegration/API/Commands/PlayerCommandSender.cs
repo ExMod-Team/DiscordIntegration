@@ -52,8 +52,13 @@ namespace DiscordIntegration.API.Commands
         /// <inheritdoc/>
         public override bool FullPermissions { get; }
 
-        /// <inheritdoc/>
-        public override void Print(string text) => player.Sender.Print(text);
+		public override bool Available()
+		{
+			throw new System.NotImplementedException();
+		}
+
+		/// <inheritdoc/>
+		public override void Print(string text) => player.Sender.Print(text);
 
         /// <inheritdoc/>
         public override void RaReply(string text, bool success, bool logToConsole, string overrideDisplay) => player.Sender.RaReply($"DISCORDINTEGRATION#{text}", success, logToConsole, overrideDisplay);

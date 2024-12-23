@@ -1,6 +1,8 @@
 namespace DiscordIntegration.Bot.Services;
 
 using Discord;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 public static class ErrorHandlingService
 {

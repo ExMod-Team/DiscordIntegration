@@ -9,21 +9,15 @@ namespace DiscordIntegration.Patches
 {
 #pragma warning disable SA1118
 
+    using Exiled.API.Features;
+    using global::DiscordIntegration.Dependency;
+    using HarmonyLib;
+    using NorthwoodLib.Pools;
+    using RemoteAdmin;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection.Emit;
-
-    using Exiled.API.Features;
-
-    using global::DiscordIntegration.Dependency;
-
-    using HarmonyLib;
-
-    using NorthwoodLib.Pools;
-
-    using RemoteAdmin;
-
     using static HarmonyLib.AccessTools;
 
     /// <summary>

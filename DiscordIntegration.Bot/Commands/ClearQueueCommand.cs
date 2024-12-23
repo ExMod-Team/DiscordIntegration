@@ -2,8 +2,9 @@ namespace DiscordIntegration.Bot.Commands;
 
 using Discord;
 using Discord.Interactions;
-
 using DiscordIntegration.Bot.Services;
+using System;
+using System.Threading.Tasks;
 
 public class ClearQueueCommand : InteractionModuleBase<SocketInteractionContext>
 {
@@ -14,13 +15,13 @@ public class ClearQueueCommand : InteractionModuleBase<SocketInteractionContext>
     [SlashCommand($"clear", "Sends a command to the SCP server.")]
     public async Task Send([Summary("command", "The command to send.")] string command)
     {
-        ErrorCodes canRunCommand = SlashCommandHandler.CanRunCommand((IGuildUser) Context.User, bot.ServerNumber, command);
+        ErrorCodes canRunCommand = SlashCommandHandler.CanRunCommand((IGuildUser)Context.User, bot.ServerNumber, command);
         if (canRunCommand != ErrorCodes.None)
         {
             await RespondAsync(embed: await ErrorHandlingService.GetErrorEmbed(canRunCommand));
             return;
         }
-        
+
         try
         {
             bot.Messages.Clear();

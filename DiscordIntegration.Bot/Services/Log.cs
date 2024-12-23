@@ -4,6 +4,9 @@ using Discord;
 
 using ICSharpCode.SharpZipLib.GZip;
 using ICSharpCode.SharpZipLib.Tar;
+using System;
+using System.IO;
+using System.Threading.Tasks;
 
 public class Log
 {
@@ -41,7 +44,7 @@ public class Log
         if (Program.Config.Debug)
             Send(port, new LogMessage(LogSeverity.Debug, source, $"[DEBUG] {msg}"), skipLog);
     }
-        
+
     public static void Error(ushort port, string source, object msg, bool skipLog = false) =>
         Send(port, new LogMessage(LogSeverity.Error, source, $"[ERROR] {msg}"), skipLog);
 
@@ -57,17 +60,17 @@ public class Log
             string archivePath = Path.Combine(DirectoryPath, $"{file.Name}.tar.gz");
             if (File.Exists(archivePath))
                 File.Delete(archivePath);
-            
+
             using FileStream outStream = File.Create(archivePath);
             using GZipOutputStream gzoStream = new(outStream);
-            
+
             TarArchive? archive = TarArchive.CreateOutputTarArchive(gzoStream);
             archive.RootPath = DirectoryPath.Replace('\\', '/').TrimEnd('/');
 
             TarEntry entry = TarEntry.CreateEntryFromFile(path);
             entry.Name = path.Replace(DirectoryPath, string.Empty);
             entry.Name = entry.Name.TrimStart('\\');
-            
+
             archive.WriteEntry(entry, true);
 
             File.Delete(path);

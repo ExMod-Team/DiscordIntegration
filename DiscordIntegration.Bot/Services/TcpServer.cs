@@ -7,6 +7,11 @@
 
 namespace DiscordIntegration.Bot.Services
 {
+    using Discord;
+    using DiscordIntegration.API.EventArgs.Network;
+    using DiscordIntegration.Dependency;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.IO;
     using System.Net;
@@ -14,14 +19,6 @@ namespace DiscordIntegration.Bot.Services
     using System.Text;
     using System.Threading;
     using System.Threading.Tasks;
-
-    using Discord;
-
-    using DiscordIntegration.API.EventArgs.Network;
-    using DiscordIntegration.Dependency;
-
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
 
     /// <summary>
     /// A client that sends JSON serialized strings to a connected server.
@@ -56,7 +53,7 @@ namespace DiscordIntegration.Bot.Services
         {
             IPEndPoint = ipEndPoint;
             this.bot = bot;
-            if (ipEndPoint != null) 
+            if (ipEndPoint != null)
                 Listener = new TcpListener(ipEndPoint);
         }
 
@@ -189,7 +186,7 @@ namespace DiscordIntegration.Bot.Services
                     Log.Debug(bot.ServerNumber, nameof(SendAsync), "Sending aborted, not connected.");
                     return;
                 }
-                
+
 
                 string serializedObject = JsonConvert.SerializeObject(data, JsonSerializerSettings);
 
@@ -327,15 +324,15 @@ namespace DiscordIntegration.Bot.Services
             {
                 try
                 {
-                    read:
+                read:
                     Task<int> readTask = TcpClient.GetStream().ReadAsync(buffer, 0, buffer.Length, cancellationToken.Token);
-                    
+
                     await Task.WhenAny(readTask, Task.Delay(1000, cancellationToken.Token)).ConfigureAwait(false);
 
                     cancellationToken.Token.ThrowIfCancellationRequested();
 
                     int bytesRead = await readTask;
-                    
+
                     try
                     {
                         await SendAsync("heartbeat", cancellationToken.Token);
@@ -349,7 +346,7 @@ namespace DiscordIntegration.Bot.Services
                         await bot.Client.SetActivityAsync(new Game("Waiting for connection..."));
                         break;
                     }
-                    
+
                     if (bytesRead == 0)
                         goto read;
 

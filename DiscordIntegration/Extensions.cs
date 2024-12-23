@@ -7,9 +7,9 @@
 
 namespace DiscordIntegration
 {
-    using System.Text.RegularExpressions;
     using API.Commands;
     using CommandSystem;
+    using System.Text.RegularExpressions;
 
     /// <summary>
     /// Useful Extension methods.

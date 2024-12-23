@@ -7,11 +7,11 @@
 
 namespace DiscordIntegration
 {
-    using System.Collections.Generic;
-    using System.ComponentModel;
     using API.Configs;
     using Exiled.API.Enums;
     using Exiled.API.Interfaces;
+    using System.Collections.Generic;
+    using System.ComponentModel;
 
     /// <summary>
     /// Handles plugin configs.
@@ -23,6 +23,12 @@ namespace DiscordIntegration
         /// </summary>
         [Description("Indicates whether the plugin is enabled or not")]
         public bool IsEnabled { get; set; } = true;
+
+        /// <summary>
+        /// Gets a value indicating whether the debug is enabled or not.
+        /// </summary>
+        [Description("Indicates whether the debug is enabled or not")]
+        public bool Debug { get; set; } = false;
 
         /// <summary>
         /// Gets bot-related configs.
@@ -99,12 +105,6 @@ namespace DiscordIntegration
         /// </summary>
         [Description("The date format that will be used throughout the plugin (es. dd/MM/yy HH:mm:ss or MM/dd/yy HH:mm:ss)")]
         public string DateFormat { get; private set; } = "dd/MM/yy HH:mm:ss";
-
-        /// <summary>
-        /// Gets a value indicating whether the debug is enabled or not.
-        /// </summary>
-        [Description("Indicates whether the debug is enabled or not")]
-        public bool IsDebugEnabled { get; private set; }
 
         /// <summary>
         /// Gets a value indicating which admin userIDs are trusted.

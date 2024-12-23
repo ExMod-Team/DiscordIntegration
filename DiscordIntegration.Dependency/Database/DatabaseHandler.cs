@@ -1,6 +1,6 @@
+using Microsoft.Data.Sqlite;
 using System;
 using System.IO;
-using Microsoft.Data.Sqlite;
 
 namespace DiscordIntegration.Dependency.Database;
 
@@ -20,7 +20,7 @@ public class DatabaseHandler
                 "CREATE TABLE IF NOT EXISTS Watchlist(Id INTEGER PRIMARY KEY AUTOINCREMENT, UserId TEXT, Reason TEXT)";
             cmd.ExecuteNonQuery();
         }
-        
+
         conn.Close();
     }
 
@@ -52,7 +52,7 @@ public class DatabaseHandler
 
             cmd.ExecuteNonQuery();
         }
-        
+
         conn.Close();
     }
 
@@ -61,7 +61,7 @@ public class DatabaseHandler
         reason = "Not in watchlist";
         using SqliteConnection conn = new(_connectionString);
         conn.Open();
-        
+
         using (SqliteCommand cmd = conn.CreateCommand())
         {
             cmd.CommandText = "SELECT * FROM Watchlist WHERE UserId=@id";

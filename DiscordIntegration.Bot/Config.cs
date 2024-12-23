@@ -1,6 +1,7 @@
 namespace DiscordIntegration.Bot;
 
 using ConfigObjects;
+using System.Collections.Generic;
 
 public class Config
 {
@@ -22,7 +23,7 @@ public class Config
                 "bot-token-here"
             }
         },
-        
+
         Channels = new Dictionary<ushort, ChannelConfig>
         {
             {
@@ -99,7 +100,7 @@ public class Config
                 }
             }
         },
-        
+
         ValidCommands = new Dictionary<ushort, Dictionary<ulong, List<string>>>
         {
             {
@@ -114,14 +115,14 @@ public class Config
                 }
             }
         },
-        
+
         DiscordServerIds = new Dictionary<ushort, ulong>
         {
             {
                 1, 0
             }
         },
-        
+
         TcpServers = new Dictionary<ushort, TcpServerConfig>
         {
             {
@@ -132,7 +133,7 @@ public class Config
                 }
             }
         },
-        
+
         KeepAliveInterval = 2000,
         MessageDelay = 1000,
         Debug = false,

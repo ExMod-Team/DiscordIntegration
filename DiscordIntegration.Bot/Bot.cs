@@ -1,22 +1,18 @@
 using DiscordIntegration.Dependency.Database;
 
 namespace DiscordIntegration.Bot;
-
-using System.Collections.Specialized;
-using System.Net;
-using System.Net.Sockets;
 using API.EventArgs.Network;
 using Commands;
 using Dependency;
 using Discord;
-using Discord.Commands;
 using Discord.Interactions;
 using Discord.WebSocket;
-
 using DiscordIntegration.Bot.ConfigObjects;
-
 using Newtonsoft.Json;
 using Services;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using ActionType = Dependency.ActionType;
 using ChannelType = Dependency.ChannelType;
 
@@ -59,7 +55,7 @@ public class Bot
         }
 
         DatabaseHandler.Init();
-        
+
         Log.Debug(ServerNumber, nameof(Init), "Setting up commands...");
         InteractionService = new(Client, new InteractionServiceConfig()
         {
@@ -133,7 +129,7 @@ public class Bot
                 case ActionType.UpdateActivity:
                     string commandMessage = string.Empty;
                     foreach (object obj in command.Parameters)
-                        commandMessage += (string) obj + " ";
+                        commandMessage += (string)obj + " ";
                     Log.Debug(ServerNumber, nameof(OnReceived), $"Updating activity status.. {commandMessage}");
                     try
                     {
@@ -149,7 +145,7 @@ public class Bot
                             Log.Error(ServerNumber, nameof(ActionType.UpdateActivity), $"Error parsing player total {split[1]}");
                             return;
                         }
-                        
+
                         switch (count)
                         {
                             case > 0 when Client.Status != UserStatus.Online:
@@ -159,7 +155,7 @@ public class Bot
                                 await Client.SetStatusAsync(UserStatus.AFK);
                                 break;
                         }
-                        
+
                         Log.Debug(ServerNumber, nameof(OnReceived), $"Status message count: {count}");
                         Log.Debug(ServerNumber, nameof(OnReceived), $"Status message total: {total}");
                         if (count != lastCount || total != lastTotal)
@@ -181,8 +177,8 @@ public class Bot
                     foreach (ulong channelId in Program.Config.Channels[ServerNumber].TopicInfo)
                     {
                         SocketTextChannel channel = Guild.GetTextChannel(channelId);
-                        if (channel is not null) 
-                            await channel.ModifyAsync(x => x.Topic = (string) command.Parameters[0]);
+                        if (channel is not null)
+                            await channel.ModifyAsync(x => x.Topic = (string)command.Parameters[0]);
                     }
 
                     break;
@@ -191,14 +187,14 @@ public class Bot
         catch (Exception e)
         {
             Log.Error(ServerNumber, nameof(OnReceived), e.Message);
-            if (e.StackTrace is not null) 
+            if (e.StackTrace is not null)
                 Log.Error(ServerNumber, nameof(OnReceived), e.StackTrace);
         }
     }
 
     private async Task DequeueMessages()
     {
-        for (;;)
+        for (; ; )
         {
             Log.Debug(ServerNumber, nameof(DequeueMessages), "Dequeue loop");
             List<KeyValuePair<LogChannel, string>> toSend = new();

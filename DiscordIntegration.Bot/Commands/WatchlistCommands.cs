@@ -5,18 +5,19 @@ namespace DiscordIntegration.Bot.Commands;
 
 using Discord;
 using Discord.Interactions;
+using System.Threading.Tasks;
 
 [Group("watchlist", "Commands for managing the watchlist.")]
-public class WatchlistCommands: InteractionModuleBase<SocketInteractionContext>
+public class WatchlistCommands : InteractionModuleBase<SocketInteractionContext>
 {
     private readonly Bot bot;
 
     public WatchlistCommands(Bot bot) => this.bot = bot;
-    
+
     [SlashCommand("add", "Adds a UserID to the watchlist.")]
     public async Task AddToWatchlist([Summary("UserId", "The user ID of the player to watch.")] string userId, [Summary("Reason", "The reason they should be watched.")] string reason)
     {
-        ErrorCodes canRunCommand = SlashCommandHandler.CanRunCommand((IGuildUser) Context.User, bot.ServerNumber, "watchlist");
+        ErrorCodes canRunCommand = SlashCommandHandler.CanRunCommand((IGuildUser)Context.User, bot.ServerNumber, "watchlist");
         if (canRunCommand != ErrorCodes.None)
         {
             await RespondAsync(embed: await ErrorHandlingService.GetErrorEmbed(canRunCommand), ephemeral: true);
@@ -31,7 +32,7 @@ public class WatchlistCommands: InteractionModuleBase<SocketInteractionContext>
                     Color.Orange), ephemeral: true);
             return;
         }
-        
+
         DatabaseHandler.AddEntry(userId, reason);
         await RespondAsync(
             embed: await EmbedBuilderService.CreateBasicEmbed("User added to Watchlist",
@@ -54,7 +55,7 @@ public class WatchlistCommands: InteractionModuleBase<SocketInteractionContext>
             await RespondAsync(embed: await ErrorHandlingService.GetErrorEmbed(ErrorCodes.NoRecordForUserFound), ephemeral: true);
             return;
         }
-        
+
         DatabaseHandler.RemoveEntry(userId);
         await RespondAsync(
             embed: await EmbedBuilderService.CreateBasicEmbed("User removed from watchlist.",

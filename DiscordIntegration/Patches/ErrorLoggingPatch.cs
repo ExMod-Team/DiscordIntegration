@@ -9,19 +9,12 @@ namespace DiscordIntegration.Patches
 {
 #pragma warning disable SA1118
 
-    using System;
+    using Exiled.API.Features;
+    using global::DiscordIntegration.Dependency;
+    using HarmonyLib;
+    using NorthwoodLib.Pools;
     using System.Collections.Generic;
     using System.Reflection.Emit;
-
-    using Exiled.API.Features;
-
-    using global::DiscordIntegration.API;
-    using global::DiscordIntegration.Dependency;
-
-    using HarmonyLib;
-
-    using NorthwoodLib.Pools;
-
     using static HarmonyLib.AccessTools;
 
     [HarmonyPatch(typeof(Log), nameof(Log.Error), typeof(object))]

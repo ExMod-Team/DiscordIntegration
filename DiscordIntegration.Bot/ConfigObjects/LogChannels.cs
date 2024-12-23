@@ -1,6 +1,8 @@
 namespace DiscordIntegration.Bot.ConfigObjects;
 
 using Dependency;
+using System;
+using System.Collections.Generic;
 
 public class LogChannels
 {

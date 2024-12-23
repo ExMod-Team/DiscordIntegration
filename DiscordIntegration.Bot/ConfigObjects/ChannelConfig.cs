@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace DiscordIntegration.Bot.ConfigObjects;
 
 public class ChannelConfig

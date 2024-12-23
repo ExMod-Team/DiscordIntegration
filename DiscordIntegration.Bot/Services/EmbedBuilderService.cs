@@ -1,7 +1,8 @@
 namespace DiscordIntegration.Bot.Services;
 
-using System.Reflection;
 using Discord;
+using System.Reflection;
+using System.Threading.Tasks;
 
 public class EmbedBuilderService
 {

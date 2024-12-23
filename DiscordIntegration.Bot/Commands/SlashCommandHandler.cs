@@ -1,11 +1,15 @@
 ﻿namespace DiscordIntegration.Bot.Commands;
 
-using System.ComponentModel.Design;
-using System.Reflection;
 using Discord;
 using Discord.Interactions;
 using Discord.WebSocket;
 using Services;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.Design;
+using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 
 public class SlashCommandHandler
 {
@@ -77,7 +81,7 @@ public class SlashCommandHandler
 
         foreach (KeyValuePair<ulong, List<string>> commandList in Program.Config.ValidCommands[serverNum])
         {
-            
+
             if (!commandList.Value.Contains(command) && !commandList.Value.Any(command.StartsWith) && !commandList.Value.Contains(".*"))
                 return ErrorCodes.InvalidCommand;
             if (user.Hierarchy >= user.Guild.GetRole(commandList.Key)?.Position)

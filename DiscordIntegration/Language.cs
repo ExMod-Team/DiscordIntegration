@@ -7,10 +7,10 @@
 
 namespace DiscordIntegration
 {
-    using System;
-    using System.IO;
     using Exiled.API.Features;
     using Newtonsoft.Json;
+    using System;
+    using System.IO;
     using static DiscordIntegration;
 
     /// <summary>
@@ -259,11 +259,11 @@ namespace DiscordIntegration
         public string NotAuthenticated { get; set; } = "Not authenticated";
 
         public string DedicatedServer { get; set; } = "Dedicated server";
-        
+
         public string WatchlistedUserJoined { get; set; } = "Watchlisted user {0} ({1}) [{2}] has joined the server.\nWatchlist Reason: {3}";
 
         public string WatchlistAddDescription { get; set; } = "Adds a user to the watchlist.";
-        
+
         public string WatchlistRemoveDescription { get; set; } = "Removes a user from the watchlist.";
 
 #pragma warning restore CS1591
