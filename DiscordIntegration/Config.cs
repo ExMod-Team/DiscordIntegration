@@ -1,10 +1,3 @@
-// -----------------------------------------------------------------------
-// <copyright file="Config.cs" company="Exiled Team">
-// Copyright (c) Exiled Team. All rights reserved.
-// Licensed under the CC BY-SA 3.0 license.
-// </copyright>
-// -----------------------------------------------------------------------
-
 namespace DiscordIntegration
 {
     using System.Collections.Generic;
@@ -23,6 +16,8 @@ namespace DiscordIntegration
         /// </summary>
         [Description("Indicates whether the plugin is enabled or not")]
         public bool IsEnabled { get; set; } = true;
+
+        public bool Debug { get; set; } = false;
 
         /// <summary>
         /// Gets bot-related configs.
