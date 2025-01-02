@@ -56,7 +56,7 @@ namespace DiscordIntegration.Patches
             if (!DiscordIntegration.Instance.Config.EventsToLog.SendingConsoleCommands && !DiscordIntegration.Instance.Config.StaffOnlyEventsToLog.SendingConsoleCommands)
                 return;
 
-            string[] args = query.Trim().Split(QueryProcessor.SpaceArray, 512, StringSplitOptions.RemoveEmptyEntries);
+            string[] args = query.Trim().Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
             if (args[0].StartsWith("$"))
                 return;
 

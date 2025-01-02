@@ -52,7 +52,8 @@ namespace DiscordIntegration.Patches
             if (!DiscordIntegration.Instance.Config.EventsToLog.SendingRemoteAdminCommands && !DiscordIntegration.Instance.Config.StaffOnlyEventsToLog.SendingRemoteAdminCommands)
                 return;
 
-            string[] args = query.Trim().Split(QueryProcessor.SpaceArray, 512, StringSplitOptions.RemoveEmptyEntries);
+            string[] args = query.Trim().Split(' ', (char)StringSplitOptions.RemoveEmptyEntries);
+
             if (args[0].StartsWith("$"))
                 return;
 

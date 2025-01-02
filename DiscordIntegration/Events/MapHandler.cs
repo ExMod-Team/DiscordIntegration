@@ -15,7 +15,12 @@ namespace DiscordIntegration.Events
     using Dependency;
     using Exiled.API.Enums;
     using Exiled.API.Features;
+    using Exiled.CustomItems.API.EventArgs;
     using Exiled.Events.EventArgs;
+    using Exiled.Events.EventArgs.Map;
+    using Exiled.Events.EventArgs.Player;
+    using Exiled.Events.EventArgs.Scp914;
+    using Exiled.Events.EventArgs.Warhead;
     using NorthwoodLib.Pools;
     using static DiscordIntegration;
 
@@ -31,7 +36,7 @@ namespace DiscordIntegration.Events
                 await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, Language.WarheadHasDetonated)).ConfigureAwait(false);
         }
 
-        public async void OnGeneratorActivated(GeneratorActivatedEventArgs ev)
+        public async void OnGeneratorActivated(GeneratorActivatingEventArgs ev)
         {
             if (Instance.Config.EventsToLog.GeneratorActivated)
                 await Network.SendAsync(new RemoteCommand(ActionType.Log, ChannelType.GameEvents, string.Format(Language.GeneratorFinished, ev.Generator.Room, Generator.Get(GeneratorState.Engaged).Count() + 1))).ConfigureAwait(false);
@@ -77,7 +82,7 @@ namespace DiscordIntegration.Events
             }
         }
 
-        public async void OnUpgradingItems(UpgradingItemEventArgs ev)
+        public async void OnUpgradingItems(UpgradingInventoryItemEventArgs ev)
         {
             if (Instance.Config.EventsToLog.UpgradingScp914Items)
             {

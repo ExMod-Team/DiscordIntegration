@@ -18,7 +18,6 @@ namespace DiscordIntegration
     using Events;
     using Exiled.API.Features;
     using HarmonyLib;
-    using MEC;
     using Handlers = Exiled.Events.Handlers;
     using Version = System.Version;
 
@@ -44,7 +43,7 @@ namespace DiscordIntegration
         private DiscordIntegration()
         {
         }
-
+        
         /// <summary>
         /// Gets the plugin <see cref="Language"/> instance.
         /// </summary>
@@ -79,11 +78,6 @@ namespace DiscordIntegration
         }
 
         /// <summary>
-        /// Gets the minimum version of Exiled to make the plugin work correctly.
-        /// </summary>
-        public override Version RequiredExiledVersion { get; } = new Version(5, 2, 0);
-
-        /// <summary>
         /// Fired when the plugin is enabled.
         /// </summary>
         public override void OnEnabled()
@@ -105,8 +99,6 @@ namespace DiscordIntegration
 
             Language.Save();
             Language.Load();
-
-            DatabaseHandler.Init();
             
             RegisterEvents();
 
@@ -156,11 +148,11 @@ namespace DiscordIntegration
             networkHandler = new NetworkHandler();
 
             Handlers.Map.Decontaminating += mapHandler.OnDecontaminating;
-            Handlers.Map.GeneratorActivated += mapHandler.OnGeneratorActivated;
+            Handlers.Map.GeneratorActivating += mapHandler.OnGeneratorActivated;
             Handlers.Warhead.Starting += mapHandler.OnStartingWarhead;
             Handlers.Warhead.Stopping += mapHandler.OnStoppingWarhead;
             Handlers.Warhead.Detonated += mapHandler.OnWarheadDetonated;
-            Handlers.Scp914.UpgradingItem += mapHandler.OnUpgradingItems;
+            Handlers.Scp914.UpgradingInventoryItem += mapHandler.OnUpgradingItems;
 
             Handlers.Server.WaitingForPlayers += serverHandler.OnWaitingForPlayers;
             Handlers.Server.RoundStarted += serverHandler.OnRoundStarted;
@@ -182,10 +174,9 @@ namespace DiscordIntegration
             Handlers.Scp079.GainingExperience += playerHandler.OnGainingExperience;
             Handlers.Player.EscapingPocketDimension += playerHandler.OnEscapingPocketDimension;
             Handlers.Player.EnteringPocketDimension += playerHandler.OnEnteringPocketDimension;
-            Handlers.Scp106.CreatingPortal += playerHandler.OnCreatingPortal;
             Handlers.Player.ActivatingWarheadPanel += playerHandler.OnActivatingWarheadPanel;
             Handlers.Player.TriggeringTesla += playerHandler.OnTriggeringTesla;
-            Handlers.Player.ThrowingItem += playerHandler.OnThrowingGrenade;
+            Handlers.Player.ThrowingRequest += playerHandler.OnThrowingGrenade;
             Handlers.Player.Hurting += playerHandler.OnHurting;
             Handlers.Player.Dying += playerHandler.OnDying;
             Handlers.Player.Kicked += playerHandler.OnKicked;
@@ -205,7 +196,6 @@ namespace DiscordIntegration
             Handlers.Player.ChangingGroup += playerHandler.OnChangingGroup;
             Handlers.Player.ChangingItem += playerHandler.OnChangingItem;
             Handlers.Scp914.Activating += playerHandler.OnActivatingScp914;
-            Handlers.Scp106.Containing += playerHandler.OnContaining;
 
             Network.SendingError += networkHandler.OnSendingError;
             Network.ReceivingError += networkHandler.OnReceivingError;
@@ -221,11 +211,11 @@ namespace DiscordIntegration
         private void UnregisterEvents()
         {
             Handlers.Map.Decontaminating -= mapHandler.OnDecontaminating;
-            Handlers.Map.GeneratorActivated -= mapHandler.OnGeneratorActivated;
+            Handlers.Map.GeneratorActivating -= mapHandler.OnGeneratorActivated;
             Handlers.Warhead.Starting -= mapHandler.OnStartingWarhead;
             Handlers.Warhead.Stopping -= mapHandler.OnStoppingWarhead;
             Handlers.Warhead.Detonated -= mapHandler.OnWarheadDetonated;
-            Handlers.Scp914.UpgradingItem -= mapHandler.OnUpgradingItems;
+            Handlers.Scp914.UpgradingInventoryItem -= mapHandler.OnUpgradingItems;
 
             Handlers.Server.WaitingForPlayers -= serverHandler.OnWaitingForPlayers;
             Handlers.Server.RoundStarted -= serverHandler.OnRoundStarted;
@@ -247,10 +237,9 @@ namespace DiscordIntegration
             Handlers.Scp079.GainingExperience -= playerHandler.OnGainingExperience;
             Handlers.Player.EscapingPocketDimension -= playerHandler.OnEscapingPocketDimension;
             Handlers.Player.EnteringPocketDimension -= playerHandler.OnEnteringPocketDimension;
-            Handlers.Scp106.CreatingPortal -= playerHandler.OnCreatingPortal;
             Handlers.Player.ActivatingWarheadPanel -= playerHandler.OnActivatingWarheadPanel;
             Handlers.Player.TriggeringTesla -= playerHandler.OnTriggeringTesla;
-            Handlers.Player.ThrowingItem -= playerHandler.OnThrowingGrenade;
+            Handlers.Player.ThrowingRequest -= playerHandler.OnThrowingGrenade;
             Handlers.Player.Hurting -= playerHandler.OnHurting;
             Handlers.Player.Dying -= playerHandler.OnDying;
             Handlers.Player.Kicked -= playerHandler.OnKicked;
@@ -270,7 +259,6 @@ namespace DiscordIntegration
             Handlers.Player.ChangingGroup -= playerHandler.OnChangingGroup;
             Handlers.Player.ChangingItem -= playerHandler.OnChangingItem;
             Handlers.Scp914.Activating -= playerHandler.OnActivatingScp914;
-            Handlers.Scp106.Containing -= playerHandler.OnContaining;
 
             Network.SendingError -= networkHandler.OnSendingError;
             Network.ReceivingError -= networkHandler.OnReceivingError;

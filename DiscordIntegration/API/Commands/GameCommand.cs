@@ -8,6 +8,7 @@
 namespace DiscordIntegration.API.Commands
 {
     using API.User;
+    using Exiled.API.Features;
     using Newtonsoft.Json;
     using RemoteAdmin;
 
@@ -55,6 +56,6 @@ namespace DiscordIntegration.API.Commands
         /// <summary>
         /// Executes the command.
         /// </summary>
-        public void Execute() => CommandProcessor.ProcessQuery(Content, Sender);
+        public void Execute() => Server.ExecuteCommand($"/{Content}", Sender);
     }
 }

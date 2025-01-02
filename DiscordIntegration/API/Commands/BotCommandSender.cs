@@ -65,5 +65,8 @@ namespace DiscordIntegration.API.Commands
 
         /// <inheritdoc cref="CommandSender.Print"/>
         public override async void Print(string text) => await Network.SendAsync(new RemoteCommand(ActionType.SendMessage, ChannelId, text.Substring(text.IndexOf('#') + 1), true));
+
+        /// <inheritdoc cref="CommandSender.Available"/>
+        public override bool Available() => true;
     }
 }
