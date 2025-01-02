@@ -78,11 +78,6 @@ namespace DiscordIntegration
         }
 
         /// <summary>
-        /// Gets the minimum version of Exiled to make the plugin work correctly.
-        /// </summary>
-        public override Version RequiredExiledVersion { get; } = new Version(5, 2, 0);
-
-        /// <summary>
         /// Fired when the plugin is enabled.
         /// </summary>
         public override void OnEnabled()
